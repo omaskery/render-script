@@ -1,0 +1,6 @@
+# This directory is preserved for tests to write example data to
+
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
