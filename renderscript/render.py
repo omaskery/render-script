@@ -54,6 +54,7 @@ class MarkdownRenderer(Visitor):
         with self._current_item_mgr(f"If {condition}:"):
             with self._unordered_list():
                 self.accept(if_node.true)
+        self.write_line()
         with self._current_item_mgr("Otherwise:"):
             with self._unordered_list():
                 self.accept(if_node.false)

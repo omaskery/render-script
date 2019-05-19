@@ -8,6 +8,7 @@ from renderscript import structure
 
 class TestMarkdownRenderer(unittest.TestCase):
 
+    @unittest.skip("unimplemented while still prototyping approach")
     def test_rendering(self):
         test_cases = [
             (
@@ -22,6 +23,7 @@ class TestMarkdownRenderer(unittest.TestCase):
                 renderer.render(compiled_script)
                 self.assertEqual(markdown, renderer.markdown, "output markdown should match expected markdown")
 
+    @unittest.skip("only used for prototyping locally")
     def test_rendering_prototype(self):
         source = """
 (let snmp_cmds
@@ -55,8 +57,8 @@ class TestMarkdownRenderer(unittest.TestCase):
                 with md._current_item_mgr(f"Execute the command:"):
                     md._code_block('bash', call_node.arguments[0].value)
             else:
-                md.expression_visitor.accept(call_node.arguments[0])
-                with md._current_item_mgr(f"Then execute the resulting command"):
+                expression = md.expression_visitor.accept(call_node.arguments[0])
+                with md._current_item_mgr(f"Then execute the resulting command: {expression}"):
                     pass
         renderer.register_external_call('exec-cmd', _describe_exec_cmd)
 
@@ -99,5 +101,5 @@ class TestMarkdownRenderer(unittest.TestCase):
         with open('../test-outputs/example.md', 'w') as output:
             output.write(renderer.markdown)
 
-        self.maxDiff = 0
+        self.maxDiff = None
         self.assertEqual(expected_markdown, renderer.markdown)
